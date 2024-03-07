@@ -22,6 +22,13 @@ namespace MudBlazor
         protected MudBaseInput() : base(new DefaultConverter<T>()) { }
 
         /// <summary>
+        /// If true, the <see cref="OnBlurredAsync(FocusEventArgs)"/> ignores <see cref="ReadOnly"/> flag to trigger validation/onblur.
+        /// Use case for setting this to true is for component that wrap some input component (inherit <see cref="MudBaseInput{T}"/>), example <see cref="MudPicker{T}"/>.
+        /// to notify the outer component of the <see cref="OnBlur"/> event.
+        /// </summary>
+        internal bool OverrideReadOnlyOnBlur { get; set; }
+
+        /// <summary>
         /// If true, the input element will be disabled.
         /// </summary>
         [Parameter]
@@ -283,7 +290,7 @@ namespace MudBlazor
 
         protected internal virtual async Task OnBlurredAsync(FocusEventArgs obj)
         {
-            if (ReadOnly)
+            if (ReadOnly && !OverrideReadOnlyOnBlur)
                 return;
             _isFocused = false;
             

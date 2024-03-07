@@ -118,7 +118,7 @@ namespace MudBlazor.UnitTests.Components
             await comp.InvokeAsync(() => headerCell.Instance.SortChangedAsync(new Microsoft.AspNetCore.Components.Web.MouseEventArgs()));
             //await comp.InvokeAsync(() => headerCell.Instance.GetDataType());
             await comp.InvokeAsync(() => headerCell.Instance.RemoveSortAsync());
-            await comp.InvokeAsync(() => headerCell.Instance.AddFilterAsync());
+            await comp.InvokeAsync(() => headerCell.Instance.AddFilter());
             await comp.InvokeAsync(() => headerCell.Instance.OpenFilters());
 
             await comp.InvokeAsync(() => dataGrid.Instance.SortMode = SortMode.None);
@@ -508,6 +508,21 @@ namespace MudBlazor.UnitTests.Components
             var age = dataGrid.Instance.Items.First().Age;
             name.Should().Be("Jonathan");
             age.Should().Be(52);
+        }
+
+        [Test]
+        public async Task DataGridInlineEditWithNullableChangeTest()
+        {
+            var comp = Context.RenderComponent<DataGridCellEditWithNullableTest>();
+            var dataGrid = comp.FindComponent<MudDataGrid<DataGridCellEditWithNullableTest.Model>>();
+
+            // try setting a value to null
+            dataGrid.FindAll("td input")[1].Change("");
+            dataGrid.Instance.Items.First().Age.Should().Be(null);
+
+            // try setting the value back to something not null
+            dataGrid.FindAll("td input")[1].Change("15");
+            dataGrid.Instance.Items.First().Age.Should().Be(15);
         }
 
         [Test]
@@ -1782,6 +1797,26 @@ namespace MudBlazor.UnitTests.Components
         }
 
         [Test]
+        public async Task DataGridClickFilterButtonTest()
+        {
+            var comp = Context.RenderComponent<DataGridFiltersTest>();
+            var dataGrid = comp.FindComponent<MudDataGrid<DataGridFiltersTest.Model>>();
+            var filterButton = dataGrid.FindAll(".filter-button")[0];
+
+            // click on the filter button
+            filterButton.Click();
+
+            // check the number of filters displayed in the filters panel is 1
+            comp.FindAll(".filters-panel .mud-grid-item.d-flex").Count.Should().Be(1);
+
+            // click again on the filter button
+            filterButton.Click();
+
+            // check the number of filters displayed in the filters panel is still 1 (no duplicate filter)
+            comp.FindAll(".filters-panel .mud-grid-item.d-flex").Count.Should().Be(1);
+        }
+
+        [Test]
         public async Task DataGridFiltersTest()
         {
             var comp = Context.RenderComponent<DataGridFiltersTest>();
@@ -2390,7 +2425,6 @@ namespace MudBlazor.UnitTests.Components
             dataGrid.FindAll(".mud-table-body .mud-table-row").Count.Should().Be(4);
         }
 
-
         [Test]
         public async Task DataGridServerDataColumnFilterRowTest()
         {
@@ -2409,6 +2443,18 @@ namespace MudBlazor.UnitTests.Components
             callCountText.Markup.Should().Contain("Server call count: 3");
             dataGrid.Render();
             dataGrid.FindAll(".mud-table-body .mud-table-row").Count.Should().Be(4);
+        }
+
+        [Test]
+        public async Task DataGridColumnFilterRowPropertyTest()
+        {
+            var comp = Context.RenderComponent<DataGridColumnFilterRowPropertyTest>();
+
+            Assert.DoesNotThrow(() => comp.FindComponent<MudTextField<string>>());
+            Assert.DoesNotThrow(() => comp.FindComponent<MudNumericField<double?>>());
+            Assert.DoesNotThrow(() => comp.FindComponent<MudSelect<Enum>>());
+            Assert.DoesNotThrow(() => comp.FindComponent<MudSelect<bool?>>());
+            Assert.DoesNotThrow(() => comp.FindComponent<MudDatePicker>());
         }
 
         [Test]
@@ -3051,7 +3097,7 @@ namespace MudBlazor.UnitTests.Components
             //await comp.InvokeAsync(() => headerCell.Instance.GetDataType());
             await comp.InvokeAsync(() => headerCell.Instance.RemoveSortAsync());
             dataGrid.Instance.FilteringRunCount.Should().Be(initialFilterCount + 7);
-            await comp.InvokeAsync(() => headerCell.Instance.AddFilterAsync());
+            await comp.InvokeAsync(() => headerCell.Instance.AddFilter());
             dataGrid.Instance.FilteringRunCount.Should().Be(initialFilterCount + 8);
             await comp.InvokeAsync(() => headerCell.Instance.OpenFilters());
             dataGrid.Instance.FilteringRunCount.Should().Be(initialFilterCount + 9);

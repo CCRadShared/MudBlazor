@@ -141,7 +141,7 @@
                                                         }
                                                         else
                                                         {
-                                                            <MudIconButton DisableRipple="true" Class="filter-button" Icon="@Icons.Material.Outlined.FilterAlt" Size="@Size.Small" Title=@Localizer["MudDataGrid.Filter"] Disabled="!context.filterable" OnClick="@(e => context?.HeaderCell.AddFilterAsync())"></MudIconButton>
+                                                            <MudIconButton DisableRipple="true" Class="filter-button" Icon="@Icons.Material.Outlined.FilterAlt" Size="@Size.Small" Title=@Localizer["MudDataGrid.Filter"] Disabled="!context.filterable" OnClick="@(e => context?.HeaderCell.AddFilter())"></MudIconButton>
                                                         }
 
                                                         @if (ColumnsPanelReordering)
@@ -338,6 +338,9 @@
     </div>
     <CascadingValue Value="true" IsFixed Name="IsNested">
         <MudDialog Options="EditDialogOptions" @bind-IsVisible="isEditFormOpen">
+             <TitleContent>
+                 <MudText Typo="Typo.h6">@EditDialogTitle</MudText>
+             </TitleContent>
             <DialogContent>
                 <MudForm @ref="_editForm" FieldChanged="FormFieldChanged">
                     @foreach (var column in RenderedColumns)

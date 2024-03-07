@@ -453,6 +453,11 @@ namespace MudBlazor
         [Parameter] public DialogOptions EditDialogOptions { get; set; }
 
         /// <summary>
+        /// Set the title for the edit dialog.
+        /// </summary>
+        [Parameter] public string EditDialogTitle { get; set; }
+
+        /// <summary>
         /// The data to display in the table. MudTable will render one row per item
         /// </summary>
         ///
