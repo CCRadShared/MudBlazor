@@ -763,6 +763,11 @@ namespace MudBlazor
         {
             if (firstRender)
             {
+                if (_elementReference is not null)
+                {
+                    _elementReference.OverrideReadOnlyOnBlur = true;
+                }
+
                 _keyInterceptor = KeyInterceptorFactory.Create();
 
                 await _keyInterceptor.Connect(_elementId, new KeyInterceptorOptions()
@@ -1073,6 +1078,12 @@ namespace MudBlazor
                 // when the menu is open we immediately get back the focus if we lose it (i.e. because of checkboxes in multi-select)
                 // otherwise we can't receive key strokes any longer
                 await FocusAsync();
+            }
+
+            if (!ReadOnly)
+            {
+                Touched = _elementReference.Touched;
+                await BeginValidateAsync();
             }
         }
 
