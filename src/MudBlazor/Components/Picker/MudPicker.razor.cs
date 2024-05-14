@@ -508,6 +508,10 @@ namespace MudBlazor
             if (firstRender == true)
             {
                 await EnsureKeyInterceptor();
+                if (_inputReference is not null)
+                {
+                    _inputReference.OverrideReadOnlyOnBlur = true;
+                }
             }
 
             await base.OnAfterRenderAsync(firstRender);
@@ -559,6 +563,15 @@ namespace MudBlazor
         protected virtual void OnPickerClosed()
         {
             PickerClosed.InvokeAsync(this);
+        }
+
+        protected virtual async Task OnInternalInputBlurred(FocusEventArgs args)
+        {
+            if (!ReadOnly)
+            {
+                Touched = _inputReference?.Touched ?? Touched;
+                await BeginValidateAsync();
+            }
         }
 
         protected internal virtual void HandleKeyDown(KeyboardEventArgs obj)
