@@ -463,6 +463,11 @@ namespace MudBlazor
         [Parameter] public DialogOptions EditDialogOptions { get; set; }
 
         /// <summary>
+        /// Set the title for the edit dialog.
+        /// </summary>
+        [Parameter] public string EditDialogTitle { get; set; }
+
+        /// <summary>
         /// The data to display in the table. MudTable will render one row per item
         /// </summary>
         ///
@@ -1226,12 +1231,13 @@ namespace MudBlazor
         /// <param name="direction">The direction.</param>
         /// <param name="sortFunc">The sort function.</param>
         /// <param name="comparer">The comparer to allow custom compare</param>
-        public async Task SetSortAsync(string field, SortDirection direction, Func<T, object> sortFunc, IComparer<object> comparer = null)
+        /// <param name="column">The comparer to allow custom compare</param>
+        public async Task SetSortAsync(string field, SortDirection direction, Func<T, object> sortFunc, IComparer<object> comparer = null, Column<T> column = null)
         {
             var removedSortDefinitions = new HashSet<string>(SortDefinitions.Keys);
             SortDefinitions.Clear();
 
-            var newDefinition = new SortDefinition<T>(field, direction == SortDirection.Descending, 0, sortFunc, comparer);
+            var newDefinition = new SortDefinition<T>(field, direction == SortDirection.Descending, 0, sortFunc, comparer, column);
             SortDefinitions[field] = newDefinition;
 
             // In case sort is just updated make sure to not mark the field as removed
@@ -1240,21 +1246,21 @@ namespace MudBlazor
             await InvokeSortUpdates(SortDefinitions, removedSortDefinitions);
         }
 
-        public async Task ExtendSortAsync(string field, SortDirection direction, Func<T, object> sortFunc, IComparer<object> comparer = null)
+        public async Task ExtendSortAsync(string field, SortDirection direction, Func<T, object> sortFunc, IComparer<object> comparer = null, Column<T> column = null)
         {
             // If SortMode is not multiple, use the default set approach and don't extend.
             if (SortMode != SortMode.Multiple)
             {
-                await SetSortAsync(field, direction, sortFunc, comparer);
+                await SetSortAsync(field, direction, sortFunc, comparer, column);
                 return;
             }
 
             // in case it already exists, just update the current entry
             if (SortDefinitions.TryGetValue(field, out var sortDefinition))
-                SortDefinitions[field] = sortDefinition with { Descending = direction == SortDirection.Descending, SortFunc = sortFunc, Comparer = comparer };
+                SortDefinitions[field] = sortDefinition with { Descending = direction == SortDirection.Descending, SortFunc = sortFunc, Comparer = comparer, Column = column };
             else
             {
-                var newDefinition = new SortDefinition<T>(field, direction == SortDirection.Descending, SortDefinitions.Count, sortFunc, comparer);
+                var newDefinition = new SortDefinition<T>(field, direction == SortDirection.Descending, SortDefinitions.Count, sortFunc, comparer, column);
                 SortDefinitions[field] = newDefinition;
             }
 
