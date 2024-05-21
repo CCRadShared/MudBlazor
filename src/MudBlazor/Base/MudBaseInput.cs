@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (c) MudBlazor 2021
+// MudBlazor licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -148,7 +152,7 @@ namespace MudBlazor
         /// The location of the adornment icon or text.
         /// </summary>
         /// <remarks>
-        /// Defaults to <see cref="Adornment.None"/>.  Then set to <c>Start</c> or <c>End</c>, the <see cref="AdornmentText"/> will be displayed, or <see cref="AdornmentIcon"/> if no adornment text is specified.  
+        /// Defaults to <see cref="Adornment.None"/>.  Then set to <c>Start</c> or <c>End</c>, the <see cref="AdornmentText"/> will be displayed, or <see cref="AdornmentIcon"/> if no adornment text is specified.
         /// </remarks>
         [Parameter]
         [Category(CategoryTypes.FormComponent.Behavior)]
@@ -484,6 +488,7 @@ namespace MudBlazor
         protected internal virtual async Task OnBlurredAsync(FocusEventArgs obj)
         {
             if (ReadOnly && !OverrideReadOnlyOnBlur)
+            {
                 return;
             }
 
