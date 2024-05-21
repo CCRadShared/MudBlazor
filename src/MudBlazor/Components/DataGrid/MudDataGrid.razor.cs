@@ -652,7 +652,12 @@ namespace MudBlazor
         public DialogOptions EditDialogOptions { get; set; }
 
         /// <summary>
-        /// The technique used to copy items for editing.
+        /// Set the title for the edit dialog.
+        /// </summary>
+        [Parameter] public string EditDialogTitle { get; set; }
+
+        /// <summary>
+        /// The data to display in the table. MudTable will render one row per item
         /// </summary>
         /// <remarks>
         /// During edit mode, a copy of the item is edited, in order to allow an edit to be canceled.  This property controls how that copy is made.
@@ -1537,16 +1542,17 @@ namespace MudBlazor
         /// <summary>
         /// Replaces the sorting behavior for a field.
         /// </summary>
-        /// <param name="field">The field to sort.</param>
-        /// <param name="direction">The direction to sort results.</param>
-        /// <param name="sortFunc">The function which sorts results.</param>
-        /// <param name="comparer">The comparer used for custom comparisons.</param>
-        public async Task SetSortAsync(string field, SortDirection direction, Func<T, object> sortFunc, IComparer<object> comparer = null)
+        /// <param name="field">The field.</param>
+        /// <param name="direction">The direction.</param>
+        /// <param name="sortFunc">The sort function.</param>
+        /// <param name="comparer">The comparer to allow custom compare.</param>
+        /// <param name="column">The column used in the creation of the SortDefinition.</param>
+        public async Task SetSortAsync(string field, SortDirection direction, Func<T, object> sortFunc, IComparer<object> comparer = null, Column<T> column = null)
         {
             var removedSortDefinitions = new HashSet<string>(SortDefinitions.Keys);
             SortDefinitions.Clear();
 
-            var newDefinition = new SortDefinition<T>(field, direction == SortDirection.Descending, 0, sortFunc, comparer);
+            var newDefinition = new SortDefinition<T>(field, direction == SortDirection.Descending, 0, sortFunc, comparer, column);
             SortDefinitions[field] = newDefinition;
 
             // In case sort is just updated make sure to not mark the field as removed
@@ -1562,24 +1568,25 @@ namespace MudBlazor
         /// <param name="direction">The direction to sort results.</param>
         /// <param name="sortFunc">The function which sorts results.</param>
         /// <param name="comparer">The comparer used for custom comparisons.</param>
+        /// <param name="column">The column used in the creation of the SortDefinition.</param>
         /// <remarks>
         /// When the <see cref="SortMode"/> is <see cref="SortMode.Single"/>, this method replaces the sort column.  Otherwise, this sort is appended to any existing sort column.
         /// </remarks>
-        public async Task ExtendSortAsync(string field, SortDirection direction, Func<T, object> sortFunc, IComparer<object> comparer = null)
+        public async Task ExtendSortAsync(string field, SortDirection direction, Func<T, object> sortFunc, IComparer<object> comparer = null, Column<T> column = null)
         {
             // If SortMode is not multiple, use the default set approach and don't extend.
             if (SortMode != SortMode.Multiple)
             {
-                await SetSortAsync(field, direction, sortFunc, comparer);
+                await SetSortAsync(field, direction, sortFunc, comparer, column);
                 return;
             }
 
             // in case it already exists, just update the current entry
             if (SortDefinitions.TryGetValue(field, out var sortDefinition))
-                SortDefinitions[field] = sortDefinition with { Descending = direction == SortDirection.Descending, SortFunc = sortFunc, Comparer = comparer };
+                SortDefinitions[field] = sortDefinition with { Descending = direction == SortDirection.Descending, SortFunc = sortFunc, Comparer = comparer, Column = column };
             else
             {
-                var newDefinition = new SortDefinition<T>(field, direction == SortDirection.Descending, SortDefinitions.Count, sortFunc, comparer);
+                var newDefinition = new SortDefinition<T>(field, direction == SortDirection.Descending, SortDefinitions.Count, sortFunc, comparer, column);
                 SortDefinitions[field] = newDefinition;
             }
 

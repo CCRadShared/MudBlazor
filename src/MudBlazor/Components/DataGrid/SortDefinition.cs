@@ -8,14 +8,15 @@ using System.Collections.Generic;
 namespace MudBlazor;
 
 #nullable enable
-
-/// <summary>
-/// Represents information about sorting in a <see cref="MudDataGrid{T}"/>.
-/// </summary>
-/// <typeparam name="T">The type of item being sorted.</typeparam>
-/// <param name="SortBy">The name of the column to sort by.</param>
-/// <param name="Descending">When <c>true</c>, sorts in descending order.</param>
-/// <param name="Index">The order of this sort relative to other sort definitions.</param>
-/// <param name="SortFunc">The custom function used to sort values.</param>
-/// <param name="Comparer">The comparer used to compare values.</param>
-public sealed record SortDefinition<T>(string SortBy, bool Descending, int Index, Func<T, object> SortFunc, IComparer<object>? Comparer = null);
+    /// <summary>
+    /// Represents information about sorting in a <see cref="MudDataGrid{T}"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of item being sorted.</typeparam>
+    /// <param name="SortBy">The name of the column to sort by.</param>
+    /// <param name="Descending">When <c>true</c>, sorts in descending order.</param>
+    /// <param name="Index">The order of this sort relative to other sort definitions.</param>
+    /// <param name="SortFunc">The custom function used to sort values.</param>
+    /// <param name="Comparer">The comparer used to compare values.</param>
+    /// <param name="Column">The column being sorted.</param>
+    public sealed record SortDefinition<T>(string SortBy, bool Descending, int Index, Func<T, object> SortFunc, IComparer<object>? Comparer = null, Column<T>? Column = null);
+}

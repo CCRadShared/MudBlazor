@@ -34,6 +34,7 @@
              Error="@Error" 
              ErrorText="@ErrorText"
              Clearable="@(GetReadOnlyState() ? false : Clearable)"
+             OnBlur="@OnInternalInputBlurred"
              OnClearButtonClick="@(async () => await ClearAsync())"
              @onclick="OnClickAsync" />;
 

@@ -154,17 +154,18 @@ public partial class DateMask : PatternMask
                 y = 0;
             if (y < 0)
                 y = _year;
-            if (maskHasMonth && (monthFound || monthComplete))
+            if (maskHasMonth && (monthFound || monthComplete) && m >= 10)
             {
                 var m1 = FixMonth(m);
                 if (m1 != m)
                     text = text.Remove(monthIndex, 2).Insert(monthIndex, $"{m1:D2}");
             }
 
-            if (maskHasDay && (dayFound || dayComplete))
+            if (maskHasDay && (dayFound || dayComplete) && d >= 10)
             {
                 var d1 = FixDay(y, m, d);
-                text = text.Remove(dayIndex, 2).Insert(dayIndex, $"{d1:D2}");
+                if (d1 != d)
+                    text = text.Remove(dayIndex, 2).Insert(dayIndex, $"{d1:D2}");
             }
         }
         catch (Exception e)

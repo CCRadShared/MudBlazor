@@ -149,6 +149,26 @@ namespace MudBlazor
             }
             return base.SetTextAsync(text, updateValue);
         }
+        protected override void OnAfterRender(bool firstRender)
+        {
+            if (firstRender == true)
+            {
+                if (OverrideReadOnlyOnBlur)
+                {
+                    if (InputReference is not null)
+                    {
+                        InputReference.OverrideReadOnlyOnBlur = true;
+                    }
+
+                    if (_maskReference is not null)
+                    {
+                        _maskReference.OverrideReadOnlyOnBlur = true;
+                    }
+                }
+            }
+
+            base.OnAfterRender(firstRender);
+        }
 
         private async Task OnMaskedValueChanged(string s)
         {

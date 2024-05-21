@@ -337,7 +337,10 @@
         }
     </div>
     <CascadingValue Value="true" IsFixed Name="IsNested">
-        <MudDialog Options="EditDialogOptions" @bind-Visible="isEditFormOpen">
+        <MudDialog Options="EditDialogOptions" @bind-IsVisible="isEditFormOpen">
+            <TitleContent>
+                <MudText Typo="Typo.h6">@EditDialogTitle</MudText>
+            </TitleContent>
             <DialogContent>
                 <MudForm @ref="_editForm" FieldChanged="FormFieldChanged">
                     @foreach (var column in RenderedColumns)

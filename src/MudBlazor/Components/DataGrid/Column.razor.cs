@@ -113,6 +113,9 @@ namespace MudBlazor
         [Parameter]
         public Func<T, object> GroupBy { get; set; }
 
+        [Parameter] public string FilterByPropertyName { get; set; }
+        [Parameter] public string SortByPropertyName { get; set; }
+
         /// <summary>
         /// Requires a value to be set.
         /// </summary>
