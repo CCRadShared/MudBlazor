@@ -56,10 +56,10 @@
                         {
                             <HeaderCell SortDirection="@(GetColumnSortDirection(column.PropertyName))" T="T" Column="@column"></HeaderCell>
                         }
-                        </tr>                             
-                                
-                        
-                        
+                        </tr>
+
+
+
                         @if (Filterable && FilterMode == DataGridFilterMode.ColumnFilterRow)
                         {
                             <tr class="mud-table-row">
@@ -71,7 +71,7 @@
                         }
                     </thead>
                     <tbody class="mud-table-body">
-                               
+
                                 @if (_columnsPanelVisible)
                                 {
                                     <MudOverlay ZIndex="10" Visible="true" OnClick="@(() => _columnsPanelVisible = false)"></MudOverlay>
@@ -86,7 +86,7 @@
                                             </div>
                                         </MudStack>
 
-                                        <MudDropContainer @ref="_columnsPanelDropContainer" T="Column<T>" Items="@RenderedColumns" ItemsSelector="(item, dropzone) => true" 
+                                        <MudDropContainer @ref="_columnsPanelDropContainer" T="Column<T>" Items="@RenderedColumns" ItemsSelector="(item, dropzone) => true"
                                             ItemDisabled="@((item) => !this.ColumnsPanelReordering)" ItemDropped="ColumnOrderUpdated">
                                             <ChildContent>
                                                 <MudDropZone T="Column<T>" Class="flex-grow-1" AllowReorder=this.ColumnsPanelReordering />
@@ -234,8 +234,8 @@
                                             @{ var rowClass = new CssBuilder(RowClass).AddClass(RowClassFunc?.Invoke(item, rowIndex)).Build(); }
                                             @{ var rowStyle = new StyleBuilder().AddStyle(RowStyle).AddStyle(RowStyleFunc?.Invoke(item, rowIndex)).Build(); }
                                             @{ var tmpRowIndex = rowIndex; }
-                                            <tr class="mud-table-row @rowClass" Style="@rowStyle" @key="item" 
-                                                @onclick="@((args) => OnRowClickedAsync(args, item, tmpRowIndex))" 
+                                            <tr class="mud-table-row @rowClass" Style="@rowStyle" @key="item"
+                                                @onclick="@((args) => OnRowClickedAsync(args, item, tmpRowIndex))"
                                                 @oncontextmenu="@((args) => OnContextMenuClickedAsync(args, item, tmpRowIndex))"
                                                 @oncontextmenu:preventDefault="@(RowContextMenuClick.HasDelegate ? true : false)">
                                                 <CascadingValue Value="@Validator" IsFixed="true">
@@ -272,8 +272,8 @@
                                     @{ var rowClass = new CssBuilder(RowClass).AddClass(RowClassFunc?.Invoke(item, rowIndex)).Build(); }
                                     @{ var rowStyle = new StyleBuilder().AddStyle(RowStyle).AddStyle(RowStyleFunc?.Invoke(item, rowIndex)).Build(); }
                                     @{ var tmpRowIndex = rowIndex; }
-                                    <tr class="mud-table-row @rowClass" Style="@rowStyle" @key="item" 
-                                        @onclick="@((args) => OnRowClickedAsync(args, item, tmpRowIndex))" 
+                                    <tr class="mud-table-row @rowClass" Style="@rowStyle" @key="item"
+                                        @onclick="@((args) => OnRowClickedAsync(args, item, tmpRowIndex))"
                                         @oncontextmenu="@((args) => OnContextMenuClickedAsync(args, item, tmpRowIndex))"
                                         @oncontextmenu:preventDefault="@(RowContextMenuClick.HasDelegate ? true : false)">
                                         <CascadingValue Value="@Validator" IsFixed="true">
@@ -337,7 +337,7 @@
         }
     </div>
     <CascadingValue Value="true" IsFixed Name="IsNested">
-        <MudDialog Options="EditDialogOptions" @bind-IsVisible="isEditFormOpen">
+        <MudDialog Options="EditDialogOptions" @bind-Visible="isEditFormOpen">
             <TitleContent>
                 <MudText Typo="Typo.h6">@EditDialogTitle</MudText>
             </TitleContent>
@@ -411,7 +411,7 @@
                 }
             }
          </text>;
-    
+
 
     internal RenderFragment Cell(Column<T> column, T item) =>
         @<text>
