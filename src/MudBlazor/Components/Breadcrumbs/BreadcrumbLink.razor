@@ -1,16 +1,65 @@
 ﻿@namespace MudBlazor
 @using MudBlazor.Utilities
 
-<li class="@Classname">
+<li>
     @if (Parent?.ItemTemplate is null)
     {
-        <a href="@(Item?.Href ?? "#")">
-            @if (Item?.Icon != null)
+        <div>
+            @if (Item.Disabled)
             {
-                <MudIcon Icon="@Item?.Icon" Size="Size.Small" />
+                <p class="mb-0">
+                    @if (Item?.Icon != null)
+                    {
+                        <MudIcon Icon="@Item?.Icon" Size="Size.Small" />
+                    }
+                    <b><u>@Item?.Text</u></b>
+                </p>
             }
-            @Item?.Text
-        </a>
+            else
+            {
+                <a href="@(Item?.Href ?? "#")">
+                    @if (Item?.Icon != null)
+                    {
+                        <MudIcon Icon="@Item?.Icon" Size="Size.Small" />
+                    }
+                    @Item?.Text
+                </a>
+                @if (Item.SubItems is not null)
+                {
+                    <MudIconButton Class="ml-2 py-0" Icon=@subItemsArrow Size="Size.Small" OnClick="@(() => showSubItems())" />
+                }
+            }
+        </div>
+        if (@Item.SubItems is not null)
+        {
+            <MudPopover AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter" Open=subItemsVisible Class="p-2">
+                @foreach (BreadcrumbItem item in Item.SubItems)
+                {
+                    if (item.Disabled)
+                    {
+                        <p class="mb-2">
+                            @if (item?.Icon != null)
+                            {
+                                <MudIcon Icon="@item?.Icon" Size="Size.Small" />
+                            }
+                            <b><u>@item?.Text</u></b>
+                        </p>
+                    }
+                    else
+                    {
+                        <div class="mb-2">
+                            <a href="@(item?.Href ?? "#")">
+                                @if (item?.Icon != null)
+                                {
+                                    <MudIcon Icon="@item?.Icon" Size="Size.Small" />
+                                }
+                                @item?.Text
+                            </a>
+                        </div>
+                    }
+                }
+            </MudPopover>
+        }
     }
     else
     {
