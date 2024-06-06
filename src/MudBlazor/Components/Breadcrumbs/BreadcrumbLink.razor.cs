@@ -2,6 +2,7 @@
 // MudBlazor licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Components;
 using MudBlazor.Utilities;
 
@@ -26,7 +27,19 @@ public partial class BreadcrumbLink
     [CascadingParameter]
     public MudBreadcrumbs? Parent { get; set; }
 
-    private string Classname => new CssBuilder("mud-breadcrumb-item")
-        .AddClass("mud-disabled", Item?.Disabled)
-        .Build();
+    private bool subItemsVisible = false;
+    private string subItemsArrow = Icons.Material.Filled.KeyboardArrowDown;
+    private void showSubItems()
+    {
+        if (subItemsVisible){
+            subItemsVisible = false;
+            subItemsArrow = Icons.Material.Filled.KeyboardArrowDown;
+        }
+        else
+        {
+            subItemsVisible = true;
+            subItemsArrow = Icons.Material.Filled.KeyboardArrowUp;
+        }
+        StateHasChanged();
+    }
 }
