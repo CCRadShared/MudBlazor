@@ -17,14 +17,14 @@
     <RepositoryUrl>https://github.com/MudBlazor/MudBlazor</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <IsTrimmable>true</IsTrimmable>
     <TrimMode>link</TrimMode>
@@ -62,7 +62,7 @@
     </ItemGroup>
     <Delete Files="@(FilesToClean)" />
   </Target>
-  
+
   <ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.19" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.19" />
@@ -77,6 +77,8 @@
 
   <PropertyGroup>
     <SassCompilerEnableWatcher>false</SassCompilerEnableWatcher>
+    <AssemblyVersion>7.0.0.4</AssemblyVersion>
+    <Version>7.0.0.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -104,7 +106,7 @@
     <!--We need to make internal types to be visible for mocking-->
     <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
   </ItemGroup>
-  
+
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>

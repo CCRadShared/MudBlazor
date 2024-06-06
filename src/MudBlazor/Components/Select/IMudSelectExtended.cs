@@ -4,13 +4,13 @@
 
 namespace MudBlazor
 {
-    internal interface IMudSelect
+    internal interface IMudSelectExtended
     {
         void CheckGenericTypeMatch(object select_item);
         bool MultiSelection { get; set; }
     }
 
-    internal interface IMudShadowSelect
+    internal interface IMudShadowSelectExtended
     {
     }
 }

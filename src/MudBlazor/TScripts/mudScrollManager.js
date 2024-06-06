@@ -2,7 +2,15 @@
 // MudBlazor licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-class MudScrollManager { 
+class MudScrollManager {
+    scrollToMiddle(parentId, childId) {
+
+        let parent = document.getElementById(parentId);
+        let child = document.getElementById(childId);
+
+        parent.scrollTop = (child.offsetTop - parent.offsetHeight) + (parent.offsetHeight / 2) + (child.offsetHeight / 2);
+    }
+
     //scrolls to year in MudDatePicker
     scrollToYear(elementId, offset) {
         let element = document.getElementById(elementId);
@@ -12,7 +20,7 @@ class MudScrollManager {
         }
     }
 
-    // sets the scroll position of the elements container, 
+    // sets the scroll position of the elements container,
     // to the position of the element with the given element id
     scrollToListItem(elementId) {
         let element = document.getElementById(elementId);
@@ -70,4 +78,10 @@ class MudScrollManager {
         element.classList.remove(lockclass + "-no-padding");
     }
 };
+
+function auto_size(element) {
+    element.style.height = "5px";
+    element.style.height = (element.scrollHeight + 4) + "px";
+}
+
 window.mudScrollManager = new MudScrollManager();

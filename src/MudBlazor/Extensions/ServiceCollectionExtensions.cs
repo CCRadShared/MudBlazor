@@ -280,6 +280,12 @@ namespace MudBlazor.Services
             return services;
         }
 
+        public static IServiceCollection AddScrollManagerExtended(this IServiceCollection services)
+        {
+            services.TryAddTransient<IScrollManagerExtended, ScrollManagerExtended>();
+            return services;
+        }
+
         /// <summary>
         /// Adds common services required by MudBlazor components
         /// </summary>
@@ -301,7 +307,8 @@ namespace MudBlazor.Services
                 .AddMudBlazorScrollSpy()
                 .AddMudPopoverService()
                 .AddMudEventManager()
-                .AddMudLocalization();
+                .AddMudLocalization()
+                .AddScrollManagerExtended();
         }
 
         /// <summary>
