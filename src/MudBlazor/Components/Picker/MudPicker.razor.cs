@@ -99,15 +99,14 @@ namespace MudBlazor
         public string AdornmentIcon { get; set; } = Icons.Material.Filled.Event;
 
         /// <summary>
-        /// The ARIA label of the adornment.
+        /// The <c>aria-label</c> for the adornment.
         /// </summary>
         /// <remarks>
-        /// Defaults to an empty string.<br />
-        /// This property controls the value set for the <c>aria-label</c> attribute, which improves accessibility.  For more on these labels, see <see href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label"/>.
+        /// Defaults to <c>null</c>.
         /// </remarks>
         [Parameter]
         [Category(CategoryTypes.FormComponent.Appearance)]
-        public string AdornmentAriaLabel { get; set; } = string.Empty;
+        public string AdornmentAriaLabel { get; set; }
 
         /// <summary>
         /// The text displayed in the input if no value is specified.
@@ -287,6 +286,9 @@ namespace MudBlazor
         /// <summary>
         /// The display variant of the text input.
         /// </summary>
+        /// <remarks>
+        /// Defaults to <see cref="Variant.Text"/>.
+        /// </remarks>
         [Parameter]
         [Category(CategoryTypes.FormComponent.Appearance)]
         public Variant Variant { get; set; } = Variant.Text;
@@ -419,6 +421,16 @@ namespace MudBlazor
         [Parameter]
         [Category(CategoryTypes.Popover.Appearance)]
         public Origin TransformOrigin { get; set; } = Origin.TopLeft;
+
+        /// <summary>
+        /// The behavior of the popover when it overflows its container.
+        /// </summary>
+        /// <remarks>
+        /// Defaults to <see cref="OverflowBehavior.FlipOnOpen"/>.
+        /// </remarks>
+        [Parameter]
+        [Category(CategoryTypes.Popover.Appearance)]
+        public OverflowBehavior OverflowBehavior { get; set; } = OverflowBehavior.FlipOnOpen;
 
         protected IMask _mask = null;
 

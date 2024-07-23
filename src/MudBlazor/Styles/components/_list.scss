@@ -199,6 +199,10 @@ $mud-palette-colors: primary, secondary, tertiary, info, success, warning, error
     .mud-list-item-icon {
       color: var(--mud-palette-action-disabled) !important;
     }
+
+    .mud-list-item-secondary-text {
+      color: var(--mud-palette-action-disabled) !important;
+    }
   }
 }
 
@@ -298,6 +302,6 @@ $mud-palette-colors: primary, secondary, tertiary, info, success, warning, error
 }
 
 .mud-list-item-secondary-text {
-    font-weight: 500;
-    color: var(--mud-palette-text-secondary);
+  font-weight: 500;
+  color: var(--mud-palette-text-secondary);
 }

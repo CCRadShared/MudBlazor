@@ -2,12 +2,13 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Options;
 using MudBlazor.State;
 using MudBlazor.Utilities;
 
+#nullable enable
 namespace MudBlazor
 {
-#nullable enable
     public partial class MudMessageBox : MudComponentBase
     {
         private readonly ParameterState<bool> _visibleState;
@@ -31,7 +32,7 @@ namespace MudBlazor
         private IDialogService DialogService { get; set; } = null!;
 
         [CascadingParameter]
-        private MudDialogInstance? DialogInstance { get; set; }
+        internal MudDialogInstance? DialogInstance { get; set; }
 
         /// <summary>
         /// The message box title. If null or empty, title will be hidden
@@ -165,6 +166,12 @@ namespace MudBlazor
             };
             _reference = await DialogService.ShowAsync<MudMessageBox>(title: Title, parameters: parameters, options: options);
             var result = await _reference.Result;
+
+            if (result is null)
+            {
+                return null;
+            }
+
             if (result.Canceled || result.Data is not bool data)
             {
                 return null;
@@ -220,13 +227,5 @@ namespace MudBlazor
         private void OnNoClicked() => DialogInstance?.Close(DialogResult.Ok(false));
 
         private void OnCancelClicked() => DialogInstance?.Close(DialogResult.Cancel());
-
-        private void HandleKeyDown(KeyboardEventArgs args)
-        {
-            if (args.Key == "Escape")
-            {
-                OnCancelClicked();
-            }
-        }
     }
 }
